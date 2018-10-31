@@ -1,11 +1,12 @@
 import {
     ADD_ARTICLE, SET_ALERT, DELETE_ARTICLE, REPLACE_ARTICLES, SHOW_ARTICLE,
-    UPDATE_ARTICLE, REMOVE_ALERT
+    UPDATE_ARTICLE, REMOVE_ALERT, SET_ARTICLES_LOADED
 } from "../constants/action-types";
 
 const initialState = {
     articles: [],
-    alert: null
+    alert: null,
+    articlesLoaded: false
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -25,6 +26,8 @@ const rootReducer = (state = initialState, action) => {
             return {...state, alert: action.payload};
         case REMOVE_ALERT:
             return {...state, alert: null};
+        case SET_ARTICLES_LOADED:
+            return {...state, articlesLoaded: true};
         default:
             return state;
     }

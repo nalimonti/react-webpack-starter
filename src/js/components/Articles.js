@@ -1,18 +1,23 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import {showArticle, getArticles, setAlert} from "../actions";
+import {showArticle, getArticles, setAlert, setArticlesLoaded} from "../actions";
 import { Link } from 'react-router-dom';
 import Alert from './Alert';
 
 const mapStateToProps = state => {
-    return { articles: state.articles, alert: state.alert };
+    return {
+        articles: state.articles,
+        alert: state.alert,
+        articlesLoaded: state.articlesLoaded
+    };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         showArticle: article => dispatch(showArticle(article)),
         fetchArticles: () => getArticles(dispatch),
-        setAlert: alert => dispatch(setAlert(alert))
+        setAlert: alert => dispatch(setAlert(alert)),
+        setArticlesLoaded: () => dispatch(setArticlesLoaded())
     }
 };
 
@@ -22,12 +27,15 @@ class ConnectedArticles extends Component {
     }
 
     componentDidMount() {
-        this.fetchArticles();
+        const { articlesLoaded } = this.props;
+        if (!articlesLoaded) this.fetchArticles();
     }
 
     fetchArticles() {
+        console.log('fetching articles');
         return this.props.fetchArticles().then(resp => {
             console.log(resp);
+            this.props.setArticlesLoaded();
         }).catch(e => {
             const { message } = e;
             this.props.setAlert({ message, type: 'danger' });

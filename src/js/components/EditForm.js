@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import uuidv1 from 'uuid';
-import { addArticle } from "../actions";
+import { updateArticle } from "../actions";
 
 const mapStateToProps = state => {
     return { articles: state.articles };
 };
 
 const mapDispatchToProps = dispatch => {
-    return { addArticle: article => dispatch(addArticle(article)) }
+    return { updateArticle: article => dispatch(updateArticle(article)) }
 };
 
-class ConnectedForm extends Component {
-    constructor() {
+class ConnectedEditForm extends Component {
+    constructor({ articles, match }) {
         super();
 
+        const article = articles.find(a => a.id === match.params.id);
+
         this.state = {
-            title: '',
-            content: ''
+            title: article.title,
+            content: article.content,
+            id: article.id
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -30,10 +32,8 @@ class ConnectedForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const { title, content } = this.state;
-        const id = uuidv1();
-        this.props.addArticle({ title, content, id });
-        this.setState({ title: '', content: '' });
+        const { title, content, id } = this.state;
+        this.props.updateArticle({ title, content, id });
     }
 
     render() {
@@ -56,6 +56,6 @@ class ConnectedForm extends Component {
     }
 }
 
-const Form = connect(mapStateToProps, mapDispatchToProps)(ConnectedForm);
+const EditForm = connect(mapStateToProps, mapDispatchToProps)(ConnectedEditForm);
 
-export default Form;
+export default EditForm;

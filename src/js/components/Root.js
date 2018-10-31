@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import App from './App'
 import Article from './Article';
 import Articles from './Articles';
+import EditForm from './EditForm';
 
 const Root = ({ store }) => (
     <Provider store={store}>
@@ -18,9 +19,10 @@ const Root = ({ store }) => (
                     </div>
                 </nav>
                 <div className="container">
-                    <Route exact path="/" component={App}/>
-                    <Route path="/articles" component={Articles}/>
-                    <Route path="/articles/:id" component={Article}/>
+                    <Route exact path="/" component={App} />
+                    <Route exact path="/articles" component={Articles} />
+                    <Route exact path="/articles/:id" component={Article} />
+                    <Route exact path="/articles/:id/edit" component={EditForm} />
                 </div>
             </div>
         </Router>

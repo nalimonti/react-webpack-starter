@@ -25,6 +25,7 @@ class ConnectedArticles extends Component {
     }
 
     render() {
+        console.log(this.props.articles);
         return(
             <div className="mt-5">
                 <h3>Articles</h3>

@@ -8,7 +8,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-    return { addArticle: article => dispatch(addArticle(article)) }
+    return { addArticle: article => addArticle(dispatch, article) }
 };
 
 class ConnectedForm extends Component {

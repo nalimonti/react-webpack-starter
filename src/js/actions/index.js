@@ -1,4 +1,4 @@
-import {ADD_ARTICLE, DELETE_ARTICLE, SHOW_ARTICLE, UPDATE_ARTICLE} from "../constants/action-types";
+import {ADD_ARTICLE, DELETE_ARTICLE, REPLACE_ARTICLES, SHOW_ARTICLE, UPDATE_ARTICLE, SET_ALERT, REMOVE_ALERT} from "../constants/action-types";
 import axios from 'axios';
 
 const apiUrl = 'http://localhost:3000';
@@ -15,8 +15,44 @@ export const addArticle = (dispatch, article) => {
     })
 };
 
+export const getArticles = (dispatch) => {
+    return new Promise((resolve, reject) => {
+        axios.get(`${apiUrl}/articles`)
+            .then(resp => {
+                const { data = {} } = resp;
+                const { articles = [] } = data;
+                resolve(dispatch({type: REPLACE_ARTICLES, payload: articles}));
+            })
+            .catch(e => {
+                const { response = {} } = e;
+                const { data = {message: 'An error occurred'} } = response;
+                reject(data)
+            })
+    })
+};
+
+export const setAlert = alert => {
+    console.log('set alert action');
+    console.log(alert);
+    return ({type: SET_ALERT, payload: alert})
+};
+
+export const removeAlert = () => ({type: REMOVE_ALERT});
+
 export const showArticle = article => ({type: SHOW_ARTICLE, payload: article});
 
 export const updateArticle = article => ({type: UPDATE_ARTICLE, payload: article});
 
-export const deleteArticle = article => ({type: DELETE_ARTICLE, payload: article});
+export const deleteArticle = (dispatch, article) => {
+    return new Promise((resolve, reject) => {
+        axios.delete(`${apiUrl}/articles/${article.id}`)
+            .then(() => {
+                resolve(dispatch(({type: DELETE_ARTICLE, payload: article})))
+            })
+            .catch(e => {
+                const { response = {} } = e;
+                const { data = {message: 'An error occurred'} } = response;
+                reject(data)
+            })
+    })
+};

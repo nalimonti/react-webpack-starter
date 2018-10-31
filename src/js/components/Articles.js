@@ -1,19 +1,37 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import {addArticle, showArticle} from "../actions";
+import {showArticle, getArticles, setAlert} from "../actions";
 import { Link } from 'react-router-dom';
+import Alert from './Alert';
 
 const mapStateToProps = state => {
-    return { articles: state.articles };
+    return { articles: state.articles, alert: state.alert };
 };
 
 const mapDispatchToProps = dispatch => {
-    return { showArticle: article => dispatch(showArticle(article)) }
+    return {
+        showArticle: article => dispatch(showArticle(article)),
+        fetchArticles: () => getArticles(dispatch),
+        setAlert: alert => dispatch(setAlert(alert))
+    }
 };
 
 class ConnectedArticles extends Component {
     constructor() {
         super();
+    }
+
+    componentDidMount() {
+        this.fetchArticles();
+    }
+
+    fetchArticles() {
+        return this.props.fetchArticles().then(resp => {
+            console.log(resp);
+        }).catch(e => {
+            const { message } = e;
+            this.props.setAlert({ message, type: 'danger' });
+        })
     }
 
     handleClick(event) {
@@ -25,9 +43,9 @@ class ConnectedArticles extends Component {
     }
 
     render() {
-        console.log(this.props.articles);
         return(
             <div className="mt-5">
+                {this.props.alert ? <Alert/> : ''}
                 <h3>Articles</h3>
                 <Link to="/">Create Article</Link>
                 <ul className="list-group list-group-flush">

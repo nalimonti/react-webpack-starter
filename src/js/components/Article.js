@@ -1,14 +1,17 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { deleteArticle } from "../actions";
+import { deleteArticle, setAlert } from "../actions";
 
 const mapStateToProps = state => {
     return { articles: state.articles };
 };
 
 const mapDispatchToProps = dispatch => {
-    return { deleteArticle: article => dispatch(deleteArticle(article)) }
+    return {
+        deleteArticle: article => deleteArticle(dispatch, article),
+        setAlert: alert => dispatch(setAlert(alert))
+    }
 };
 
 class ConnectedArticle extends Component {
@@ -19,21 +22,20 @@ class ConnectedArticle extends Component {
         const { id } = params;
 
         this.state = {
-            articleId: id
+            articleId: parseInt(id)
         };
 
         this.handleDelete = this.handleDelete.bind(this);
     }
 
     handleDelete() {
-        console.log('deleting article');
         const article = this.props.articles.find(e => e.id === this.state.articleId);
-        this.props.deleteArticle(article);
+        this.props.deleteArticle(article).then(() => {
+            this.props.setAlert({message: 'Alert deleted', type: 'primary'});
+        });
     }
 
     render() {
-        console.log(this.state);
-        console.log(this.props.articles);
         const article = this.props.articles.find(e => e.id === this.state.articleId);
         if (!this.props.articles.length || !article) {
             return (

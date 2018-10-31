@@ -2,3 +2,6 @@ export const ADD_ARTICLE = 'ADD_ARTICLE';
 export const SHOW_ARTICLE = 'SHOW_ARTICLE';
 export const UPDATE_ARTICLE = 'UPDATE_ARTICLE';
 export const DELETE_ARTICLE = 'DELETE_ARTICLE';
+export const REPLACE_ARTICLES = 'REPLACE_ARTICLES';
+export const SET_ALERT = 'SET_ALERT';
+export const REMOVE_ALERT = 'REMOVE_ALERT';

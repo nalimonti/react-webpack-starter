@@ -1,0 +1,14 @@
+export const ADD_ARTICLE = 'ADD_ARTICLE';
+export const SHOW_ARTICLE = 'SHOW_ARTICLE';
+export const UPDATE_ARTICLE = 'UPDATE_ARTICLE';
+export const DELETE_ARTICLE = 'DELETE_ARTICLE';
+export const REPLACE_ARTICLES = 'REPLACE_ARTICLES';
+export const SET_ALERT = 'SET_ALERT';
+export const REMOVE_ALERT = 'REMOVE_ALERT';
+export const SET_ARTICLES_LOADED = 'SET_ARTICLES_LOADED';
+export const SET_USER = 'SET_USER';
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const LOGOUT = 'LOGOUT';
+export const SIGN_UP = 'SIGN_UP';

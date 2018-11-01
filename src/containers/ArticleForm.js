@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
-
 
 import {updateArticle} from "../actions/Articles";
 
@@ -10,7 +8,7 @@ class Login extends Component {
     static propTypes = {
         Layout: PropTypes.func.isRequired,
         onFormSubmit: PropTypes.func.isRequired,
-        user: PropTypes.object
+        user: PropTypes.object.isRequired
     };
 
     state = {

@@ -6,10 +6,16 @@ import {
 import {FlatList, TouchableOpacity} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
-const ArticlesListing = ({ articles }) => {
+const ArticlesListing = ({ articles, user }) => {
+    console.log('articles listing', user);
     const onPress = (item) => Actions.article({ match: { params: {id: String(item.id)} } });
 
-    const onEditPress = item => Actions.articleForm({ match: { params: {id: String(item.id)} } });
+    const onEditPress = item => {
+        console.log('edit press22');
+        console.log(user);
+        if (user) return Actions.articleForm({ match: { params: {id: String(item.id)} } });
+        return Actions.login();
+    };
 
     const keyExtractor = (item) => String(item.id);
 

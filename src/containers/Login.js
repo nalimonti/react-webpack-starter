@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { login } from '../actions/User';
+import { login, logout } from '../actions/User';
 
 class Login extends Component {
     static propTypes = {
@@ -55,10 +55,8 @@ const mapStateToProps = state => ({
     successMessage: state.success || '',
 });
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onFormSubmit: formData => login(dispatch, formData)
-    }
+const mapDispatchToProps = {
+    onFormSubmit: login
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -13,6 +13,7 @@ class Articles extends Component {
         match: PropTypes.shape({
             params: PropTypes.shape({}),
         }),
+        user: PropTypes.object
     };
 
     static defaultProps = {
@@ -44,7 +45,8 @@ class Articles extends Component {
         const {
             articles,
             Layout,
-            match
+            match,
+            user
         } = this.props;
 
         const id = (match && match.params && match.params.id) ? match.params.id : null;
@@ -55,6 +57,7 @@ class Articles extends Component {
             <Layout
                 articleId={id}
                 articles={articles}
+                user={user}
             />
         );
     }
@@ -62,7 +65,8 @@ class Articles extends Component {
 
 const mapStateToProps = state => ({
     articles: state.articles,
-    articlesLoaded: state.articlesLoaded || false
+    articlesLoaded: state.articlesLoaded || false,
+    user: state.user
 });
 
 const mapDispatchToProps = {

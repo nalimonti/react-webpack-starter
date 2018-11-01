@@ -15,7 +15,7 @@ class Login extends React.Component {
         error: PropTypes.string,
         success: PropTypes.string,
         loading: PropTypes.bool.isRequired,
-        onFormSubmit: PropTypes.func.isRequired,
+        onFormSubmit: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -55,7 +55,7 @@ class Login extends React.Component {
         const {
             loading,
             error,
-            success
+            success,
         } = this.props;
         const { email } = this.state;
 

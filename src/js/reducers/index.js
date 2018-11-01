@@ -40,7 +40,7 @@ const rootReducer = (state = initialState, action) => {
             console.log(action);
             return {...state, user: action.user};
         case LOGOUT:
-            return {...state, user: null, token: null, isAuthenticated: false, isFetching: false};
+            return {...state, user: {}, token: null, isAuthenticated: false, isFetching: false};
         default:
             return state;
     }

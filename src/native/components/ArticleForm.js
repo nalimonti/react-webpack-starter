@@ -9,7 +9,7 @@ import Messages from './Messages';
 
 class ArticleForm extends React.Component {
     static propTypes = {
-        user: PropTypes.object,
+        user: PropTypes.object.isRequired,
         onFormSubmit: PropTypes.func.isRequired,
     };
 
@@ -21,12 +21,6 @@ class ArticleForm extends React.Component {
             title: '',
             content: ''
         };
-
-        const { user } = props;
-        if (!user) {
-            console.log('no user founasdasdd');
-            return Actions.login();
-        }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);

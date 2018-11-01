@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { logout } from "../actions";
+import PropTypes from 'prop-types';
 import {isAuthenticated} from "../helpers/authHelper";
 
 
@@ -14,7 +15,7 @@ const mapStateToProps = state => {
     return {
         user: state.user
     }
-}
+};
 
 class ConnectedLogout extends Component {
     constructor() {
@@ -26,19 +27,23 @@ class ConnectedLogout extends Component {
     handleClick() {
         console.log('click logout');
         this.props.logout();
-        this.render();
+        // this.render();
     }
 
     render() {
-        console.log('render');
-        console.log(isAuthenticated());
+        console.log('render logout');
+        console.log(this.props);
         return (
             <span>
-                {isAuthenticated() ? <a className="nav-item nav-link" style={{color: 'white'}} onClick={this.handleClick}>Logout</a> : '' }
+                {this.props.user ? <a className="nav-item nav-link" style={{color: 'white'}} onClick={this.handleClick}>Logout</a> : '' }
             </span>
         )
     }
 }
+
+ConnectedLogout.propTypes = {
+    user: PropTypes.object
+};
 
 const Logout = connect(mapStateToProps, mapDispatchToProps)(ConnectedLogout);
 

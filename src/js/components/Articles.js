@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {showArticle, getArticles, setAlert, setArticlesLoaded} from "../actions";
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Alert from './Alert';
 import Nav from "./Nav";
 
@@ -9,7 +9,8 @@ const mapStateToProps = state => {
     return {
         articles: state.articles,
         alert: state.alert,
-        articlesLoaded: state.articlesLoaded
+        articlesLoaded: state.articlesLoaded,
+        user: state.user
     };
 };
 
@@ -52,6 +53,8 @@ class ConnectedArticles extends Component {
     }
 
     render() {
+        console.log('render articles');
+        console.log(this.props);
         return(
             <div>
                 <Nav/>
@@ -70,6 +73,6 @@ class ConnectedArticles extends Component {
     }
 }
 
-const Articles = connect(mapStateToProps, mapDispatchToProps)(ConnectedArticles);
+const Articles = withRouter(connect(mapStateToProps, mapDispatchToProps)(ConnectedArticles));
 
 export default Articles;

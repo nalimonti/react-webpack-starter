@@ -8,47 +8,38 @@ import Articles from './Articles';
 import EditForm from './EditForm';
 import Login from './Login';
 import PrivateRoute from './PrivateRoute';
-import Logout from './Logout';
-import Nav from "./Nav";
-import { Container } from 'reactstrap';
+import SignUp from "./SignUp";
 
-const Root = ({ store }) => (
-    <Provider store={store}>
-        <Router>
-            <Container>
-                <PrivateRoute exact path="/" component={App} />
-                <Route exact path="/articles" component={Articles} />
-                <Route exact path="/articles/:id" component={Article} />
-                <PrivateRoute exact path="/articles/:id/edit" component={EditForm} />
-                <Route exact path="/login" component={Login} />
-            </Container>
-        </Router>
-    </Provider>
-);
 
-export default Root;
+const mapStateToProps = state => {
+    return {
+        user: state.user
+    }
+};
 
-// const mapStateToProps = state => {
-//     return {
-//         user: state.user
-//     }
-// };
-//
-// class Root extends Component {
-//     constructor({ store }) {
-//         super();
-//         this.store = store;
-//     }
-//
-//     render() {
-//         return(
-//             <Provider store={this.store}>
-//                 <Router>
-//                     <Nav user={this.props.user}/>
-//                 </Router>
-//             </Provider>
-//         )
-//     }
-// }
-//
-// export default connect(mapStateToProps)(Root)
+class Root extends Component {
+    constructor({ store }) {
+        super();
+        this.store = store;
+    }
+
+    render() {
+        console.log('render root');
+        return(
+            <Provider store={this.store}>
+                <Router>
+                    <div>
+                        <PrivateRoute exact path="/" component={App} />
+                        <Route exact path="/articles" component={Articles} />
+                        <Route exact path="/articles/:id" component={Article} />
+                        <PrivateRoute exact path="/articles/:id/edit" component={EditForm} />
+                        <Route exact path="/login" component={Login} />
+                        <Route exact path="/signup" component={SignUp}/>
+                    </div>
+                </Router>
+            </Provider>
+        )
+    }
+}
+
+export default connect(mapStateToProps)(Root)

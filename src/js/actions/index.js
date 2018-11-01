@@ -99,7 +99,7 @@ export const login = (dispatch, user) => {
 
 export const loginRequest = creds => ({type: LOGIN_REQUEST, isFetching: true, isAuthenticated: false, creds});
 
-export const loginSuccess = user => ({type: LOGIN_SUCCESS, isFetching: false, isAuthenticated: true, token: user.token});
+export const loginSuccess = user => ({type: LOGIN_SUCCESS, isFetching: false, isAuthenticated: true, token: user.token, user });
 
 export const loginFailure = message => ({type: LOGIN_FAILURE, isFetching: false, isAuthenticated: false, message });
 
@@ -107,4 +107,21 @@ export const logout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     return ({type: LOGOUT});
+};
+
+export const signUp = (dispatch, user) => {
+    return new Promise((resolve, reject) => {
+        axios.post(`${apiUrl}/users`, user)
+            .then(resp => {
+                console.log(resp);
+                const { data = {} } = resp;
+                const { user, token } = data;
+                localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('token', token);
+                resolve(dispatch(loginSuccess(user)))
+            })
+            .catch(e => {
+                reject(e.response.data)
+            })
+    })
 };

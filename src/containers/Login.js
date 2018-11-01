@@ -20,11 +20,13 @@ class Login extends Component {
     onFormSubmit = (data) => {
         const { onFormSubmit } = this.props;
         return onFormSubmit(data)
-            .catch((err) => { this.setState({ errorMessage: err }); throw err; });
+            .catch((err) => {
+                console.log(err);
+                this.setState({ errorMessage: err }); throw err;
+            });
     };
 
     render = () => {
-        console.log(this.props);
         const {
             user,
             Layout,
@@ -52,8 +54,10 @@ const mapStateToProps = state => ({
     successMessage: state.success || '',
 });
 
-const mapDispatchToProps = {
-    onFormSubmit: login,
+const mapDispatchToProps = dispatch => {
+    return {
+        onFormSubmit: formData => login(dispatch, formData)
+    }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

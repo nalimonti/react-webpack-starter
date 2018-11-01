@@ -5,6 +5,7 @@ import {
 } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 // import Loading from './Loading';
+import Messages from './Messages';
 
 class Login extends React.Component {
     static propTypes = {
@@ -25,6 +26,8 @@ class Login extends React.Component {
     };
 
     constructor(props) {
+        console.log('Login component constructor');
+        console.log(props);
         super(props);
         this.state = {
             email: (props.user && props.user.email) ? props.user.email : '',
@@ -62,7 +65,7 @@ class Login extends React.Component {
             <Container>
                 <Content>
                     <View padder>
-
+                        { error ? <Messages message={error} type={'error'} /> : null }
                     </View>
 
                     <Form>

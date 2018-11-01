@@ -1,34 +1,40 @@
-import React from 'react';
-import { StatusBar, Platform } from 'react-native';
-import PropTypes from 'prop-types';
-import { Provider } from 'react-redux';
-import { Router, Stack } from 'react-native-router-flux';
+import * as Expo from "expo";
+import React, { Component } from "react";
 
-import { Root, StyleProvider } from 'native-base';
-import getTheme from '../../native-base-theme/components';
-import theme from '../../native-base-theme/variables/commonColor';
+import App from "./components/App";
+import PropTypes from "prop-types";
 
-import Routes from './routes/index';
+export default class Setup extends Component {
+    static propTypes = {
+        store: PropTypes.shape({}).isRequired
+    };
 
-// Hide StatusBar on Android as it overlaps tabs
-// if (Platform.OS === 'android') StatusBar.setHidden(true);
+    constructor() {
+        super();
+        this.state = {
+            isReady: false
+        };
+    }
 
-const App = ({ store }) => (
-    <Root>
-        <Provider store={store}>
-            <StyleProvider style={getTheme(theme)}>
-                <Router>
-                    <Stack key="root">
-                        {Routes}
-                    </Stack>
-                </Router>
-            </StyleProvider>
-        </Provider>
-    </Root>
-);
+    componentWillMount() {
+        this.loadFonts();
+    }
 
-App.propTypes = {
-    store: PropTypes.shape({}).isRequired,
-};
+    async loadFonts() {
+        await Expo.Font.loadAsync({
+            Roboto: require("native-base/Fonts/Roboto.ttf"),
+            Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
+            Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf")
+        });
+        this.setState({ isReady: true });
+    }
 
-export default App;
+    render() {
+        if (!this.state.isReady) {
+            return <Expo.AppLoading />;
+        }
+        return (
+            <App store={this.props.store}/>
+        );
+    }
+}

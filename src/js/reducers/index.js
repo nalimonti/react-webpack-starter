@@ -1,12 +1,16 @@
 import {
     ADD_ARTICLE, SET_ALERT, DELETE_ARTICLE, REPLACE_ARTICLES, SHOW_ARTICLE,
-    UPDATE_ARTICLE, REMOVE_ALERT, SET_ARTICLES_LOADED
+    UPDATE_ARTICLE, REMOVE_ALERT, SET_ARTICLES_LOADED, SET_USER
 } from "../constants/action-types";
 
 const initialState = {
     articles: [],
     alert: null,
-    articlesLoaded: false
+    articlesLoaded: false,
+    user: null,
+    isFetching: false,
+    isAuthenticated: false,
+    token: null
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -28,6 +32,9 @@ const rootReducer = (state = initialState, action) => {
             return {...state, alert: null};
         case SET_ARTICLES_LOADED:
             return {...state, articlesLoaded: true};
+        case SET_USER:
+            console.log('setting user');
+            return {...state, user: action.payload};
         default:
             return state;
     }

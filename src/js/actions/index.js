@@ -1,6 +1,6 @@
 import {
     ADD_ARTICLE, DELETE_ARTICLE, REPLACE_ARTICLES, SHOW_ARTICLE, UPDATE_ARTICLE, SET_ALERT, REMOVE_ALERT,
-    SET_ARTICLES_LOADED
+    SET_ARTICLES_LOADED, SET_USER, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE
 } from "../constants/action-types";
 import axios from 'axios';
 
@@ -70,3 +70,31 @@ export const deleteArticle = (dispatch, article) => {
 };
 
 export const setArticlesLoaded = () => ({type: SET_ARTICLES_LOADED});
+
+export const login = (dispatch, user) => {
+    dispatch(loginRequest(user));
+
+    const { email, password } = user;
+    return new Promise((resolve, reject) => {
+        axios.post(`${apiUrl}/users/login`, { password, email })
+            .then(resp => {
+                console.log(resp);
+                const { data = {} } = resp;
+                const { user } = data;
+                localStorage.setItem('user', JSON.stringify(user));
+                resolve(dispatch(loginSuccess(user)))
+                // resolve(dispatch({type: SET_USER, payload: user}))
+            })
+            .catch(e => {
+                const { response = {} } = e;
+                const { data = {message: 'Could not log in'} } = response;
+                reject(dispatch(loginFailure(data.message)))
+            })
+    })
+};
+
+export const loginRequest = creds => ({type: LOGIN_REQUEST, isFetching: true, isAuthenticated: false, creds});
+
+export const loginSuccess = user => ({type: LOGIN_SUCCESS, isFetching: false, isAuthenticated: true, token: user.token});
+
+export const loginFailure = message => ({type: LOGIN_FAILURE, isFetching: false, isAuthenticated: false, message });

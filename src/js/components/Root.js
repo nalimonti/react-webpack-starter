@@ -5,6 +5,7 @@ import App from './App'
 import Article from './Article';
 import Articles from './Articles';
 import EditForm from './EditForm';
+import Login from './Login';
 
 const Root = ({ store }) => (
     <Provider store={store}>
@@ -15,6 +16,7 @@ const Root = ({ store }) => (
                     <div className="collapse navbar-collapse">
                         <ul className="navbar-nav">
                             <Link className="nav-item nav-link" to="/articles" style={{color: 'white'}}>Articles</Link>
+                            <Link className="nav-item nav-link" to="/login">Login</Link>
                         </ul>
                     </div>
                 </nav>
@@ -23,6 +25,7 @@ const Root = ({ store }) => (
                     <Route exact path="/articles" component={Articles} />
                     <Route exact path="/articles/:id" component={Article} />
                     <Route exact path="/articles/:id/edit" component={EditForm} />
+                    <Route exact path="/login" component={Login} />
                 </div>
             </div>
         </Router>

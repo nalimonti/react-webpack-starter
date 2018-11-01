@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 
-import { login } from '../actions/User';
+
+import {updateArticle} from "../actions/Articles";
 
 class Login extends Component {
     static propTypes = {
         Layout: PropTypes.func.isRequired,
-        user: PropTypes.shape({}).isRequired,
         onFormSubmit: PropTypes.func.isRequired,
-        isLoading: PropTypes.bool.isRequired,
-        successMessage: PropTypes.string.isRequired,
+        user: PropTypes.object
     };
 
     state = {
@@ -27,7 +27,7 @@ class Login extends Component {
     };
 
     render = () => {
-        console.log('login container render');
+        console.log('articleform container render');
         const {
             user,
             Layout,
@@ -40,9 +40,6 @@ class Login extends Component {
         return (
             <Layout
                 user={user}
-                loading={isLoading}
-                error={errorMessage}
-                success={successMessage}
                 onFormSubmit={this.onFormSubmit}
             />
         );
@@ -50,15 +47,13 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => ({
-    user: state.user || {},
+    user: state.user,
     isLoading: state.loading || false,
     successMessage: state.success || '',
 });
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onFormSubmit: formData => login(dispatch, formData)
-    }
+const mapDispatchToProps = {
+    onFormSubmit: updateArticle
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

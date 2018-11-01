@@ -1,7 +1,10 @@
 import React from 'react';
 import Setup from './src/native';
-import store from './src/js/store';
+import configureStore from './src/store/index';
+
+const { persistor, store } = configureStore();
+console.log(store);
 
 export default function App() {
-  return <Setup store={store} />;
+  return <Setup store={store} persistor={persistor} />;
 }

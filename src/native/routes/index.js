@@ -6,6 +6,11 @@ import DefaultProps from '../constants/navigation';
 import Landing from '../components/Landing';
 import LoginComponent from '../components/Login';
 import LoginContainer from '../../containers/Login';
+import Articles from '../components/Articles';
+import ArticlesContainer from '../../containers/Articles';
+import Article from '../components/Article';
+import ArticleFormContainer from '../../containers/ArticleForm';
+import ArticleForm from '../components/ArticleForm';
 
 const Index = (
     <Stack hideNavBar>
@@ -23,7 +28,32 @@ const Index = (
                     icon={() => <Icon name="planet" {...DefaultProps.icons} />}
                     {...DefaultProps.navbarProps}
                 >
-                    <Scene key="landing" component={Landing} />
+                    <Scene
+                        back
+                        key="landing"
+                        title="LANDING"
+                        {...DefaultProps.navbarProps}
+                        component={ArticlesContainer}
+                        Layout={Articles}
+                    />
+
+                    <Scene
+                        back
+                        key="article"
+                        title="ARTICLE"
+                        {...DefaultProps.navbarProps}
+                        component={ArticlesContainer}
+                        Layout={Article}
+                    />
+
+                    <Scene
+                        back
+                        key="articleForm"
+                        title="ARTICLE FORM"
+                        {...DefaultProps.navbarProps}
+                        component={ArticleFormContainer}
+                        Layout={ArticleForm}
+                    />
                 </Stack>
 
                 <Stack

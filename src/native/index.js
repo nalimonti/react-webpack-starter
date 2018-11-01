@@ -6,7 +6,8 @@ import PropTypes from "prop-types";
 
 export default class Setup extends Component {
     static propTypes = {
-        store: PropTypes.shape({}).isRequired
+        store: PropTypes.shape({}).isRequired,
+        persistor: PropTypes.shape({}).isRequired
     };
 
     constructor() {
@@ -34,7 +35,7 @@ export default class Setup extends Component {
             return <Expo.AppLoading />;
         }
         return (
-            <App store={this.props.store}/>
+            <App store={this.props.store} persistor={this.props.persistor} />
         );
     }
 }

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {showArticle, getArticles, setAlert, setArticlesLoaded} from "../actions";
 import { Link } from 'react-router-dom';
 import Alert from './Alert';
+import Nav from "./Nav";
 
 const mapStateToProps = state => {
     return {
@@ -52,17 +53,19 @@ class ConnectedArticles extends Component {
 
     render() {
         return(
-            <div className="mt-5">
-                {this.props.alert ? <Alert/> : ''}
-                <h3>Articles</h3>
-                <Link to="/">Create Article</Link>
-                <ul className="list-group list-group-flush">
-                    {this.props.articles.map(el => (
-                        <Link to={`/articles/${el.id}`} key={el.id} className="list-group-item">{el.title}</Link>
-                    ))}
-                </ul>
+            <div>
+                <Nav/>
+                <div className="mt-5 container">
+                    {this.props.alert ? <Alert/> : ''}
+                    <h3>Articles</h3>
+                    <Link to="/">Create Article</Link>
+                    <ul className="list-group list-group-flush">
+                        {this.props.articles.map(el => (
+                            <Link to={`/articles/${el.id}`} key={el.id} className="list-group-item">{el.title}</Link>
+                        ))}
+                    </ul>
+                </div>
             </div>
-
         )
     }
 }

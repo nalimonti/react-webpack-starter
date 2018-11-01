@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { login, setAlert } from "../actions";
 import Alert from './Alert';
+import Nav from "./Nav";
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -49,20 +50,24 @@ class ConnectedLogin extends Component {
         const { password, email } = this.state;
         return (
             <div>
-                {this.props.alert ? <Alert/> : ''}
-                <form onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                        <label htmlFor="title">Email</label>
-                        <input type="text" className="form-control" id="email" value={email} onChange={this.handleChange} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="title">Password</label>
-                        <input type="text" className="form-control" id="password" value={password} onChange={this.handleChange} />
-                    </div>
-                    <button type="submit" className="btn btn-success btn-lg">
-                        Save
-                    </button>
-                </form>
+                <Nav/>
+                <div className="container mt-5">
+                    {this.props.alert ? <Alert/> : ''}
+                    <h4>Login</h4>
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="form-group">
+                            <label htmlFor="title">Email</label>
+                            <input type="text" className="form-control" id="email" value={email} onChange={this.handleChange} />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="title">Password</label>
+                            <input type="text" className="form-control" id="password" value={password} onChange={this.handleChange} />
+                        </div>
+                        <button type="submit" className="btn btn-success btn-lg">
+                            Save
+                        </button>
+                    </form>
+                </div>
             </div>
         )
     }

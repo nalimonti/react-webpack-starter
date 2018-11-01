@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { deleteArticle, setAlert } from "../actions";
+import Nav from "./Nav";
 
 const mapStateToProps = state => {
     return { articles: state.articles };
@@ -43,14 +44,17 @@ class ConnectedArticle extends Component {
             );
         }
         return(
-            <div className="card">
-                <div className="card-header">{article.title}</div>
-                <div className="card-body">
-                    <p className="card-text">{article.content}</p>
-                </div>
-                <div className="card-footer">
-                    <Link to={`/articles/${article.id}/edit`} key={article.id}>Edit</Link>
-                    <button className="btn btn-danger" onClick={this.handleDelete}>Delete</button>
+            <div>
+                <Nav/>
+                <div className="card">
+                    <div className="card-header">{article.title}</div>
+                    <div className="card-body">
+                        <p className="card-text">{article.content}</p>
+                    </div>
+                    <div className="card-footer">
+                        <Link to={`/articles/${article.id}/edit`} key={article.id}>Edit</Link>
+                        <button className="btn btn-danger" onClick={this.handleDelete}>Delete</button>
+                    </div>
                 </div>
             </div>
         )

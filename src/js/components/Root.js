@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import App from './App'
@@ -6,30 +7,48 @@ import Article from './Article';
 import Articles from './Articles';
 import EditForm from './EditForm';
 import Login from './Login';
+import PrivateRoute from './PrivateRoute';
+import Logout from './Logout';
+import Nav from "./Nav";
+import { Container } from 'reactstrap';
 
 const Root = ({ store }) => (
     <Provider store={store}>
         <Router>
-            <div>
-                <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-                    <Link className="navbar-brand" to="/"> Home</Link>
-                    <div className="collapse navbar-collapse">
-                        <ul className="navbar-nav">
-                            <Link className="nav-item nav-link" to="/articles" style={{color: 'white'}}>Articles</Link>
-                            <Link className="nav-item nav-link" to="/login">Login</Link>
-                        </ul>
-                    </div>
-                </nav>
-                <div className="container">
-                    <Route exact path="/" component={App} />
-                    <Route exact path="/articles" component={Articles} />
-                    <Route exact path="/articles/:id" component={Article} />
-                    <Route exact path="/articles/:id/edit" component={EditForm} />
-                    <Route exact path="/login" component={Login} />
-                </div>
-            </div>
+            <Container>
+                <PrivateRoute exact path="/" component={App} />
+                <Route exact path="/articles" component={Articles} />
+                <Route exact path="/articles/:id" component={Article} />
+                <PrivateRoute exact path="/articles/:id/edit" component={EditForm} />
+                <Route exact path="/login" component={Login} />
+            </Container>
         </Router>
     </Provider>
 );
 
 export default Root;
+
+// const mapStateToProps = state => {
+//     return {
+//         user: state.user
+//     }
+// };
+//
+// class Root extends Component {
+//     constructor({ store }) {
+//         super();
+//         this.store = store;
+//     }
+//
+//     render() {
+//         return(
+//             <Provider store={this.store}>
+//                 <Router>
+//                     <Nav user={this.props.user}/>
+//                 </Router>
+//             </Provider>
+//         )
+//     }
+// }
+//
+// export default connect(mapStateToProps)(Root)

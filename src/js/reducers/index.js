@@ -1,6 +1,6 @@
 import {
     ADD_ARTICLE, SET_ALERT, DELETE_ARTICLE, REPLACE_ARTICLES, SHOW_ARTICLE,
-    UPDATE_ARTICLE, REMOVE_ALERT, SET_ARTICLES_LOADED, SET_USER
+    UPDATE_ARTICLE, REMOVE_ALERT, SET_ARTICLES_LOADED, SET_USER, LOGOUT
 } from "../constants/action-types";
 
 const initialState = {
@@ -35,6 +35,8 @@ const rootReducer = (state = initialState, action) => {
         case SET_USER:
             console.log('setting user');
             return {...state, user: action.payload};
+        case LOGOUT:
+            return initialState;
         default:
             return state;
     }

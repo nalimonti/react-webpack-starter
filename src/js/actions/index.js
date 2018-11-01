@@ -1,8 +1,9 @@
 import {
     ADD_ARTICLE, DELETE_ARTICLE, REPLACE_ARTICLES, SHOW_ARTICLE, UPDATE_ARTICLE, SET_ALERT, REMOVE_ALERT,
-    SET_ARTICLES_LOADED, SET_USER, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE
+    SET_ARTICLES_LOADED, SET_USER, LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT
 } from "../constants/action-types";
 import axios from 'axios';
+import {authHeader} from "../helpers/authHelper";
 
 const apiUrl = 'http://localhost:3000';
 
@@ -20,7 +21,9 @@ export const addArticle = (dispatch, article) => {
 
 export const getArticles = (dispatch) => {
     return new Promise((resolve, reject) => {
-        axios.get(`${apiUrl}/articles`)
+        axios.get(`${apiUrl}/articles`, {
+            headers: authHeader()
+        })
             .then(resp => {
                 const { data = {} } = resp;
                 const { articles = [] } = data;
@@ -80,8 +83,9 @@ export const login = (dispatch, user) => {
             .then(resp => {
                 console.log(resp);
                 const { data = {} } = resp;
-                const { user } = data;
+                const { user, token } = data;
                 localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('token', token);
                 resolve(dispatch(loginSuccess(user)))
                 // resolve(dispatch({type: SET_USER, payload: user}))
             })
@@ -98,3 +102,9 @@ export const loginRequest = creds => ({type: LOGIN_REQUEST, isFetching: true, is
 export const loginSuccess = user => ({type: LOGIN_SUCCESS, isFetching: false, isAuthenticated: true, token: user.token});
 
 export const loginFailure = message => ({type: LOGIN_FAILURE, isFetching: false, isAuthenticated: false, message });
+
+export const logout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    return ({type: LOGOUT});
+};

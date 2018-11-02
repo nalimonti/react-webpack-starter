@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { getArticles, setArticlesLoaded } from '../actions/Articles';
+import { getArticles, setArticlesLoaded, deleteArticle } from '../actions/Articles';
 
 class Articles extends Component {
     static propTypes = {
@@ -22,6 +22,7 @@ class Articles extends Component {
 
     state = {
         errorMessage: null,
+        successMessage: null
     };
 
     componentDidMount() {
@@ -39,6 +40,19 @@ class Articles extends Component {
         })
     }
 
+    onArticleDelete = (item) => {
+        console.log('on article delete', item);
+        console.log(this.props);
+        this.props.deleteArticle(item).then(resp => {
+            console.log('article deleted', resp);
+            const { message = 'Success!' } = resp;
+            this.setState({ successMessage: message });
+        }).catch(e => {
+            console.error(e);
+            this.setState({ errorMessage: e });
+        })
+    };
+
     render = () => {
         console.log('render articles container');
         console.log(this.props);
@@ -51,13 +65,16 @@ class Articles extends Component {
 
         const id = (match && match.params && match.params.id) ? match.params.id : null;
 
-        const { errorMessage } = this.state;
+        const { errorMessage, successMessage } = this.state;
 
         return (
             <Layout
                 articleId={id}
                 articles={articles}
                 user={user}
+                onDelete={this.onArticleDelete}
+                success={successMessage}
+                error={errorMessage}
             />
         );
     }
@@ -71,7 +88,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
     getArticles,
-    setArticlesLoaded
+    setArticlesLoaded,
+    deleteArticle
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Articles);

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-    ADD_ARTICLE,
+    ADD_ARTICLE, DELETE_ARTICLE,
     LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, REPLACE_ARTICLES,
     SET_ARTICLES_LOADED, UPDATE_ARTICLE
 } from "../constants/ActionsTypes";
@@ -41,7 +41,8 @@ export function updateArticle(article) {
                 console.error(e);
                 const { response = {} } = e;
                 const { data = {message: 'An error occurred'} } = response;
-                reject(data)
+                const { message } = data;
+                reject(message)
             })
     })
 }
@@ -56,8 +57,27 @@ export function createArticle(article) {
         }).catch(e => {
             const { response = {} } = e;
             const { data = {message: 'An error occurred'} } = response;
-            reject(data)
+            const { message } = data;
+            reject(message)
         })
+    })
+}
+
+export function deleteArticle(article) {
+    console.log('deleting article', article);
+    return dispatch => new Promise((resolve, reject) => {
+        axios.delete(`${apiUrl}/articles/${article.id}`)
+            .then(resp => {
+                const { data = {} } = resp;
+                const { message = 'Article deleted!' } = data;
+                resolve(dispatch(({type: DELETE_ARTICLE, payload: article, message})))
+            })
+            .catch(e => {
+                const { response = {} } = e;
+                const { data = {message: 'An error occurred'} } = response;
+                const { message } = data;
+                reject(message)
+            })
     })
 }
 

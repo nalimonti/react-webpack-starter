@@ -21,7 +21,7 @@ const rootReducer = (state = initialState, action) => {
             return state;
         case UPDATE_ARTICLE:
             const { id, title, content } = action.payload;
-            return {...state, articles: state.articles.map(a => a.id === id ? {...a, title, content } : a)};
+            return {...state, articles: state.articles.map(a => parseInt(a.id) === parseInt(id) ? {...a, title, content } : a)};
         case DELETE_ARTICLE:
             return {...state, articles: state.articles.filter(a => a.id !== action.payload.id)};
         case REPLACE_ARTICLES:

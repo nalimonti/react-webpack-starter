@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {
+    ADD_ARTICLE,
     LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, REPLACE_ARTICLES,
     SET_ARTICLES_LOADED, UPDATE_ARTICLE
 } from "../constants/ActionsTypes";
@@ -20,13 +21,15 @@ export function getArticles() {
             })
             .catch(e => {
                 const { response = {} } = e;
-                const { data = {message: 'An error occurred'} } = response;
-                reject(data)
+                const { data = {} } = response;
+                const { message = 'An error occurred!' } = data;
+                reject(message)
             })
     })
 }
 
 export function updateArticle(article) {
+    console.log('updating article');
     return dispatch => new Promise((resolve, reject) => {
         axios.put(`${apiUrl}/articles/${article.id}`, { article })
             .then(resp => {
@@ -36,7 +39,25 @@ export function updateArticle(article) {
             })
             .catch(e => {
                 console.error(e);
+                const { response = {} } = e;
+                const { data = {message: 'An error occurred'} } = response;
+                reject(data)
             })
+    })
+}
+
+export function createArticle(article) {
+    console.log('creating article');
+    return dispatch => new Promise((resolve, reject) => {
+        axios.post(`${apiUrl}/articles`, { article }).then(resp => {
+            const { data = {} } = resp;
+            const { id: newId, message = 'Article created!' } = data;
+            resolve(dispatch({type: ADD_ARTICLE, payload: Object.assign({}, article, {id: newId || article.id }), message}))
+        }).catch(e => {
+            const { response = {} } = e;
+            const { data = {message: 'An error occurred'} } = response;
+            reject(data)
+        })
     })
 }
 

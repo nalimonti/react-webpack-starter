@@ -7,21 +7,23 @@ import {FlatList, TouchableOpacity} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 const ArticlesListing = ({ articles, user }) => {
-    console.log('articles listing', user);
     const onPress = (item) => Actions.article({ match: { params: {id: String(item.id)} } });
 
     const onEditPress = item => {
-        console.log('edit press22');
-        console.log(user);
         if (user) return Actions.articleForm({ match: { params: {id: String(item.id)} } });
         return Actions.login();
     };
+
+    const onCreatePress = () => Actions.articleForm();
 
     const keyExtractor = (item) => String(item.id);
 
     return (
         <Container>
             <Content>
+                <TouchableOpacity onPress={() => onCreatePress()}>
+                    <Text>Create Article</Text>
+                </TouchableOpacity>
                 <FlatList data={articles} keyExtractor={keyExtractor} renderItem={({ item }) => (
                     <Card>
                         <CardItem header>

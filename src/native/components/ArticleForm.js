@@ -11,15 +11,27 @@ class ArticleForm extends React.Component {
     static propTypes = {
         user: PropTypes.object.isRequired,
         onFormSubmit: PropTypes.func.isRequired,
+        articles: PropTypes.array,
+        articleId: PropTypes.string,
+        success: PropTypes.string,
+        error: PropTypes.string
     };
 
     constructor(props) {
         console.log('Article form component constructor');
         console.log(props);
         super(props);
+
+        const { articles, articleId } = props;
+
+        let article = null;
+        if (articleId) {
+            article = articles.find(a => parseInt(a.id) === parseInt(articleId));
+        }
+
         this.state = {
-            title: '',
-            content: ''
+            title: article ? article.title : '',
+            content: article ? article.content : ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -35,7 +47,6 @@ class ArticleForm extends React.Component {
     handleSubmit = () => {
         const { onFormSubmit } = this.props;
         onFormSubmit(this.state)
-            .then(() => Actions.pop())
             .catch(e => console.log(`Error: ${e}`));
     };
 
@@ -55,6 +66,7 @@ class ArticleForm extends React.Component {
                 <Content>
                     <View padder>
                         { error ? <Messages message={error} type={'error'} /> : null }
+                        { success ? <Messages message={success} type={'success'} /> : null }
                     </View>
 
                     <Form>
